@@ -3,7 +3,6 @@ package faucet
 import (
 	"errors"
 	"std"
-	"strings"
 
 	"gno.land/p/ufmt"
 )
