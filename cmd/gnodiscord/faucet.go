@@ -10,11 +10,9 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/gnolang/gno/pkgs/amino"
 	"github.com/gnolang/gno/pkgs/command"
-
 	"github.com/gnolang/gno/pkgs/crypto/keys"
 	"github.com/gnolang/gno/pkgs/crypto/keys/client"
 	"github.com/gnolang/gno/pkgs/errors"
-
 	"github.com/gnolang/gno/pkgs/sdk/vm"
 	"github.com/gnolang/gno/pkgs/std"
 )
@@ -61,19 +59,13 @@ var DefaultFaucetOptions = faucetOptions{
 // DiscordFaucet access local keybase, remote chain endpoint discord session
 type DiscordFaucet struct {
 	// local wallet key store
-	keybase keys.Keybase
-
-	keyinfo keys.Info
-
-	keyname string
-
-	keypass string
-
+	keybase  keys.Keybase
+	keyinfo  keys.Info
+	keyname  string
+	keypass  string
 	sequence uint64
-
 	// discord session
 	session *discordgo.Session
-
 	// other faucetOptions
 	opts faucetOptions
 }
@@ -146,7 +138,6 @@ func faucetApp(cmd *command.Command, args []string, iopts interface{}) error {
 
 	// XXX XXX
 	// Read supply account pubkey.
-
 	name := args[0]
 	var pass string
 	if opts.Quiet {
@@ -161,7 +152,6 @@ func faucetApp(cmd *command.Command, args []string, iopts interface{}) error {
 	// validate password
 
 	// start a discord session
-
 	df, err := NewDiscordFaucet(name, pass, opts)
 	if err != nil {
 		return err
