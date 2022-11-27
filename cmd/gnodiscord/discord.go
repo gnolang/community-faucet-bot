@@ -6,11 +6,8 @@ import (
 	"unicode"
 
 	"github.com/bwmarrin/discordgo"
-
 	"github.com/gnolang/gno/pkgs/amino"
-
 	"github.com/gnolang/gno/pkgs/crypto"
-
 	"github.com/gnolang/gno/pkgs/crypto/keys/client"
 	"github.com/gnolang/gno/pkgs/errors"
 	"github.com/gnolang/gno/pkgs/std"
@@ -24,7 +21,6 @@ func (df *DiscordFaucet) Start() error {
 	}
 
 	// Open a websocket connection to Discord and begin listening.
-
 	return df.session.Open()
 }
 
@@ -36,7 +32,6 @@ func (df *DiscordFaucet) Close() {
 // it takes discord server API token and rpc client.
 // We use rpc client to validate addresses and check abuses.
 // and we cap the balance holding to 400 GNOT before issue new tokens from faucet
-
 func (df *DiscordFaucet) discordFaucet() error {
 	// Create a new Discord session using the provided bot token.
 	dg, err := discordgo.New("Bot " + df.opts.BotToken)
@@ -57,13 +52,13 @@ func (df *DiscordFaucet) discordFaucet() error {
 		if m.Author.ID == s.State.User.ID {
 			return
 		}
+
 		// ignore message from other channels
 		if m.ChannelID != df.opts.Channel {
 			return
 		}
 
 		// ignore message from other discord guild/server
-
 		if m.GuildID != df.opts.Guild {
 			return
 		}
@@ -75,27 +70,23 @@ func (df *DiscordFaucet) discordFaucet() error {
 
 		user := m.Mentions[0]
 
-		// ingore messages that doe not mentiont this bot
-
+		// ignore messages that does not mention this bot
 		if user.Bot != true || user.Username != df.opts.BotName {
 			return
 		}
 
-		var res string
 		// retrive toAddress from received disocrd message
+		var res string
 		toAddr, bal, err := df.process(m)
 		if err != nil {
-
 			res = fmt.Sprintf("%s", err)
 			dg.ChannelMessageSend(m.ChannelID, "<@"+m.Author.ID+"> "+res)
-
 			fmt.Printf("channel %s:<@%s> %s", m.ChannelID, m.Author.Username, res)
-
 			return
-
 		}
-		var send std.Coins
+
 		// if the account has no balance we give it upto the full.
+		var send std.Coins
 		if bal.IsZero() {
 			send = std.NewCoins(perAccountLimit)
 		} else {
@@ -104,13 +95,9 @@ func (df *DiscordFaucet) discordFaucet() error {
 
 		err = df.sendAmountTo(toAddr, send)
 		if err != nil {
-
 			dg.ChannelMessageSend(m.ChannelID, "<@"+m.Author.ID+"> "+"faucet failed")
-
 			fmt.Printf("channel %s:<@%s>%v", m.ChannelID, m.Author.Username, err)
-
 			return
-
 		}
 
 		var amount string
@@ -157,7 +144,6 @@ func retrieveAddr(message string) (string, error) {
 	words := strings.Fields(message)
 
 	for _, w := range words {
-
 		s := strings.TrimFunc(w, func(r rune) bool {
 			return !unicode.IsLetter(r) && !unicode.IsNumber(r)
 		})
@@ -173,15 +159,12 @@ func retrieveAddr(message string) (string, error) {
 	if !ok {
 		return "", err
 	}
-
 	return addr, nil
 }
 
 // A valid address format
-
 func isValid(addr string) (bool, error) {
 	// validate prefix
-
 	if strings.HasPrefix(addr, crypto.Bech32AddrPrefix) == false {
 		return false, errors.New("The address does not have correct prefix %s", crypto.Bech32AddrPrefix)
 	}

@@ -25,7 +25,7 @@ func AdminSetTransferLimit(amount int64, denom string) string {
 	if err := assertIsAdmin(); err != nil {
 		return err.Error()
 	}
-	limit = std.Coins{std.Coin{Denom: denom, Amount: amount}}
+	gLimit = std.Coins{std.Coin{Denom: denom, Amount: amount}}
 	return ""
 }
 
@@ -44,15 +44,11 @@ func AdminAddController(addr std.Address) string {
 
 	k := -1
 	for _, v := range gControllers {
-
 		if v == addr {
-
 			return addr.String() + " exists, no need to add."
 		}
-
 	}
 	for i, v := range gControllers {
-
 		if v == "" {
 
 			k = i
@@ -75,17 +71,14 @@ func AdminRemoveController(addr std.Address) string {
 
 	removed := false
 	for i, v := range gControllers {
-
 		if v == addr {
 
 			gControllers[i] = ""
 			removed = true
 		}
-
 	}
 
 	if removed == false {
-
 		return addr.String() + " is not on the controller list"
 	}
 	return ""
