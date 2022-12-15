@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ./build/gnobot faucet $1 \
---pkgpath gno.land/r/faucet \
+--pkgpath gno.land/r/gnoland/faucet \
 --token 'ABC' \
 --bot-name "faucet" \
 --channel "1029999999999999999" \

@@ -5,18 +5,25 @@ import (
 	"std"
 	"testing"
 
-	"gno.land/p/testutils"
-	"gno.land/r/faucet"
+	"gno.land/p/demo/testutils"
+	"gno.land/r/gnoland/faucet"
 )
 
 func TestPackage(t *testing.T) {
 	var (
-		adminaddr       = std.Address("g1jg8mtutu9khhfwc4nxmuhcpftf0pajdhfvsqf5")
-		faucetaddr      = std.TestDerivePkgAddr("gno.land/r/faucet")
-		controlleraddr1 = testutils.TestAddress("controller1")
-		controlleraddr2 = testutils.TestAddress("controller2")
-		controlleraddr3 = testutils.TestAddress("controller3")
-		controlleraddr4 = testutils.TestAddress("controller4")
+		adminaddr        = std.Address("g1jg8mtutu9khhfwc4nxmuhcpftf0pajdhfvsqf5")
+		faucetaddr       = std.TestDerivePkgAddr("gno.land/r/faucet")
+		controlleraddr1  = testutils.TestAddress("controller1")
+		controlleraddr2  = testutils.TestAddress("controller2")
+		controlleraddr3  = testutils.TestAddress("controller3")
+		controlleraddr4  = testutils.TestAddress("controller4")
+		controlleraddr5  = testutils.TestAddress("controller5")
+		controlleraddr6  = testutils.TestAddress("controller6")
+		controlleraddr7  = testutils.TestAddress("controller7")
+		controlleraddr8  = testutils.TestAddress("controller8")
+		controlleraddr9  = testutils.TestAddress("controller9")
+		controlleraddr10 = testutils.TestAddress("controller10")
+		controlleraddr11 = testutils.TestAddress("controller11")
 
 		test1addr = testutils.TestAddress("test1")
 	)
@@ -54,14 +61,21 @@ func TestPackage(t *testing.T) {
 	std.TestSetOrigCaller(controlleraddr1)
 	assertErr(t, faucet.Transfer(test1addr, 1000000))
 
-	// add more than 3 controllers
-
+	// duplicate controller
 	std.TestSetOrigCaller(adminaddr)
 	assertNoErr(t, faucet.AdminAddController(controlleraddr1))
 	assertErr(t, faucet.AdminAddController(controlleraddr1))
+	// add more than more than allowed controllers
 	assertNoErr(t, faucet.AdminAddController(controlleraddr2))
 	assertNoErr(t, faucet.AdminAddController(controlleraddr3))
-	assertErr(t, faucet.AdminAddController(controlleraddr4))
+	assertNoErr(t, faucet.AdminAddController(controlleraddr4))
+	assertNoErr(t, faucet.AdminAddController(controlleraddr5))
+	assertNoErr(t, faucet.AdminAddController(controlleraddr6))
+	assertNoErr(t, faucet.AdminAddController(controlleraddr7))
+	assertNoErr(t, faucet.AdminAddController(controlleraddr8))
+	assertNoErr(t, faucet.AdminAddController(controlleraddr9))
+	assertNoErr(t, faucet.AdminAddController(controlleraddr10))
+	assertErr(t, faucet.AdminAddController(controlleraddr11))
 
 	// send more than per transfer limit
 	std.TestSetOrigCaller(adminaddr)
@@ -70,9 +84,8 @@ func TestPackage(t *testing.T) {
 	assertErr(t, faucet.Transfer(test1addr, 301000000))
 
 	// block transefer from the address not on the controllers list.
-	std.TestSetOrigCaller(controlleraddr4)
+	std.TestSetOrigCaller(controlleraddr11)
 	assertErr(t, faucet.Transfer(test1addr, 1000000))
-
 }
 
 func assertErr(t *testing.T, err string) {

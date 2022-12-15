@@ -1,5 +1,5 @@
 # community-faucet-bot
-the community bot(s) interacting with r/faucet
+the community bot(s) interacting with gno.land/r/gnoland/faucet
 
 See https://github.com/gnolang/gno/issues/364.
 

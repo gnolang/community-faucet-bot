@@ -4,18 +4,18 @@
 # --deposit flag: a minumn fee of 100gnot is needed to deploy the smart contract in the package path gno.land/r/
 
 default=' test1  --gas-fee 10000000ugnot --gas-wanted 1000000 --broadcast true --remote test3.gno.land:36657 --chainid test3'
-package=' --pkgdir examples/gno.land/r/faucet --pkgpath gno.land/r/faucet '
+package=' --pkgdir examples/gno.land/r/gnoland/faucet --pkgpath gno.land/r/gnoland/faucet '
 
 #faucet admin  contract holds the faucet fund. let's deposit 200K gnot first
 deposit=' --deposit 200000000000ugnot'
 
 # call set faucet account
-callAddController=' --pkgpath gno.land/r/faucet --func AdminAddController --args '
+callAddController=' --pkgpath gno.land/r/gnoland/faucet --func AdminAddController --args '
 addController="$default $callAddController $3"
 
 
 # call transfer
-callTransfer=' --pkgpath gno.land/r/faucet --func Transfer --args '
+callTransfer=' --pkgpath gno.land/r/gnoland/faucet --func Transfer --args '
 transfer="$default $callTransfer $3 --args $4"
 
 
