@@ -9,7 +9,7 @@ import (
 
 var (
 	// configurable by admin.
-	gAdminAddr std.Address = "g1jg8mtutu9khhfwc4nxmuhcpftf0pajdhfvsqf5"
+	gAdminAddr std.Address = "g1u7y667z64x2h7vc6fmpcprgey4ck233jaww9zq"
 
 	gControllers [10]std.Address = [10]std.Address{} // limit it to 10
 
