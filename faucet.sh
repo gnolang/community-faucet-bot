@@ -28,7 +28,7 @@ then
   then
     if [ "$4" = "" ]
     then
-    echo 'need the third parameter: controller_address'
+    echo 'need the forth parameter: controller_address'
 
     else
     echo $gnotx call $addController
@@ -39,7 +39,7 @@ then
   then
     if [ "$4" = "" ]
     then
-    echo 'need the third parameter: to_address'
+    echo 'need the forth parameter: to_address'
 
     else
     echo $gnotx call $transfer
@@ -47,7 +47,7 @@ then
 
     fi
   else
-  echo 'the second parameter must be controller or transfer'
+  echo 'the third parameter must be controller or transfer'
   fi
 
 elif [ "$2" = "deploy" ]
@@ -57,6 +57,6 @@ then
   $gnotx addpkg $default $package $deposit
 
 else
-  echo 'the fist parameter must be either call or deploy'
-  echo 'usage: deploy | call transfer [toaddress] | call controller [address]'
+  echo 'the second parameter must be either call or deploy'
+  echo 'usage: [funding_key] deploy | call transfer [toaddress] | call controller [address]'
 fi
