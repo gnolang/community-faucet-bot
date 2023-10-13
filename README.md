@@ -93,7 +93,7 @@ We could set the contract deployer as faucet contract admin. However, it is less
 
 Please modify the controller address in ./provision.sh
 
-On production, please use a separate admin account than test1 ( g1jg8mtutu9khhfwc4nxmuhcpftf0pajdhfvsqf5 )
+On production, please use a separate admin account than test1 ( g1jg8mtutu9khhfwc4nxmuhcpftf0pajdhfvsqf5 ).
 DO NOT use test1 as admin in production, and mnemonic code is published on github.
 adminkey's address should match with the admin address in faucet.gno
 
