@@ -152,4 +152,5 @@ Once the bot starts, you will see a contract package address printed.
     Please verify the address with the contract deployed on the chain for  gno.land/r/gnoland/faucet
     Please make sure to deposit funds to this faucet contract: g1ttrq7mp4zy6dssnmgyyktnn4hcj3ys8xhju0n7
 
-./send.sh test1 g1ttrq7mp4zy6dssnmgyyktnn4hcj3ys8xhju0n7 200000000000ugnot
+    ./send.sh test1 g1ttrq7mp4zy6dssnmgyyktnn4hcj3ys8xhju0n7 200000000000ugnot
+     
