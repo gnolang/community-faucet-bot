@@ -71,7 +71,7 @@ make sure you include $GOPATH/bin in $PATH
 
 #### 0.1) create admin and controller accounts
 
-We use test1 to fund admin and controllers. The admin account address is hard coded in the faucet.gno
+We use test1 to fund admin and controllers. The admin account address is hard coded in the faucet.gno.
 We could set the contract deployer as faucet contract admin. However, it is less secure.
 
      // only use test1 for testing
