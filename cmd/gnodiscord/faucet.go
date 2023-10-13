@@ -151,9 +151,8 @@ func faucetApp(cmd *command.Command, args []string, iopts interface{}) error {
 	}
 
 	// validate password
-
 	//  Print faucet contract address
-	//  This is a hack, we should use gno.DerivePkgAddr(pkgPath string),
+	//  TODO: This is a hack, we should use gno.DerivePkgAddr(pkgPath string),
 	//  I had a problem to import github.com/gnolang/gno properly. Will fix it later.
 	pkgAddr := crypto.AddressFromPreimage([]byte("pkgPath:" + opts.PkgPath)).Bech32()
 	fmt.Println("- Please verify the address with contract deloyed on chain for ", opts.PkgPath)

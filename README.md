@@ -14,15 +14,15 @@ In addition, it adds operational complexity and cost to operating an endpoint.
 
 ### Details
 
-There are four issues we try to solve in the web-based faucet.
+There are four issues from the Web-Based Faucet that the Community Faucet Bot aims to solve:
 
-1) It is centralized and can be an abuse target.
+1) It is centralized and can be subject to abuse.
 
-2) First-time users need to understand the fee structure to register and interact with the board and require multiple requests to get in fees
+2) First-time users need to submit multiple requests and are required to understand the fee structure to register and interact with the board.
 
-3) There need to be more tokens allocated to the faucet wallet to support many user registrations and board creation.
+3) A larger token allocation for the faucet account is needed to support a growing number of user registrations and requests to the board.
 
-4) Faucet need to use fund from a contract instead of a user account.
+4) The faucet needs to utilize funds from a contract instead of a user account for added security and improved management going forward.
 
 ## Solution
 
