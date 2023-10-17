@@ -1,5 +1,5 @@
 # community-faucet-bot
-the community bot(s) interacting with r/faucet
+the community bot(s) interacting with gno.land/r/gnoland/faucet
 
 See https://github.com/gnolang/gno/issues/364.
 
@@ -14,15 +14,15 @@ In addition, it adds operational complexity and cost to operating an endpoint.
 
 ### Details
 
-There are three issues we try to solve in the web-based faucet.
+There are four issues from the Web-Based Faucet that the Community Faucet Bot aims to solve:
 
-1) It is centralized and can be an abuse target.
+1) It is centralized and can be subject to abuse.
 
-2) First-time users need to understand the fee structure to register and interact with the board and require multiple requests to get in fees
+2) First-time users need to submit multiple requests and are required to understand the fee structure to register and interact with the board.
 
-3) There need to be more tokens allocated to the faucet wallet to support many user registrations and board creation.
+3) A larger token allocation for the faucet account is needed to support a growing number of user registrations and requests to the board.
 
-
+4) The faucet needs to utilize funds from a contract instead of a user account for added security and improved management going forward.
 
 ## Solution
 
@@ -50,7 +50,7 @@ We can set a limit for each, say 400gnot per account. We give max 400gnot for fi
 
 4) We can also recycle the tokens from the user and broad contract back to the faucet manually or automatically.
 
-5) 200 gnot user registration fee is to prevent people from spamming the user board. We can add a limited number of users can register per day and lower the fee. It slows down the pace that the faucets drain out.
+5) 200 gnot user registration fee is to prevent people from spamming the user board. We can add a limited number of users can register per day and lower the fee. It slows down the pace that the faucet drains out.
 
 ## Features
 
@@ -61,6 +61,8 @@ We can set a limit for each, say 400gnot per account. We give max 400gnot for fi
 
 #### 0) Install the gnokey
 
+the discord bot will need to access local key store
+
      git clone https://github.com/gnolang/gno
      cd gno
      make install_gnokey
@@ -69,28 +71,46 @@ make sure you include $GOPATH/bin in $PATH
 
 #### 0.1) create admin and controller accounts
 
-     gnokey add admin
+We use test1 to fund admin and controllers. The admin account address is hard coded in the faucet.gno.
+We could set the contract deployer as faucet contract admin. However, it is less secure.
+
+     // only use test1 for testing
+     gnokey add test1 --recover
+
+     // import faucet admin key for testing, on production admin should have been already created for it to be included in the contract.
+
+     gnokey add admin --recover
 
      gnokey add controller1
 
-     gnokey add controller2
 
 
 #### 1) build gnobot
 
     make
 
-#### 2) Deploy faucet contract and assign controller the faucet
+#### 2) Assign controller to the faucet
 
- please modify the the address in the script.
+Please modify the controller address in ./provision.sh
 
-     ./provison.sh
+On production, please use a separate admin account than test1 ( g1jg8mtutu9khhfwc4nxmuhcpftf0pajdhfvsqf5 ).
+DO NOT use test1 as admin in production, and mnemonic code is published on github.
+adminkey's address should match with the admin address in faucet.gno
+
+     ./provision.sh
 
 #### 3) start the bot
 
-check out
+Review the flag in the script, and provide a gnokey account that can instruct the faucet contract to distribute funds.
 
-      ./startbot.sh
+      ./startbot.sh controller1 DISCORDBOT_TOKEN
+
+
+the executed command and flags
+
+
+    ./build/gnobot faucet controller1 --chain-id test3 --token DISCORDBOT_TOKEN --channel DISCORD_CHANNELID -bot-name DISCORD_BOTNAME --guild $DISCORD_GUILD --remote test3.gno.land:36657
+
 
 The following flags are required when you run the gnobot. We do not recommend storing the discord token on your local machine, not even in the env file.
 
@@ -110,7 +130,7 @@ The following flags are required when you run the gnobot. We do not recommend st
 
 DISCORDBOT_TOKEN:
 
-Your discord application bot token. (NOT OAuth2 token )
+Your discord application bot token. (It is NOT a OAuth2 token )
 
 DISCORD_CHANNELID:
 
@@ -118,11 +138,19 @@ The id of a channel that you add the bot to
 
 DISCORD_GUILD:
 
-The id of the discord server that you add the bot to
+The server id of the discord server that you added the bot
 
 DISCORD_BOTNAME:
 
 The name of your bot
 
 
-      ./build/gnodiscord faucet test1 --chain-id test3 --token DISCORDBOT_TOKEN --channel DISCORD_CHANNELID -bot-name DISCORD_BOTNAME --guild $DISCORD_GUILD --remote test3.gno.land:36657
+#### 4) Final step, fund the faucet contract!
+
+Once the bot starts, you will see a contract package address printed.
+
+    Please verify the address with the contract deployed on the chain for  gno.land/r/gnoland/faucet
+    Please make sure to deposit funds to this faucet contract: g1ttrq7mp4zy6dssnmgyyktnn4hcj3ys8xhju0n7
+
+    ./send.sh test1 g1ttrq7mp4zy6dssnmgyyktnn4hcj3ys8xhju0n7 200000000000ugnot
+     

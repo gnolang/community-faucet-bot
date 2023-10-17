@@ -10,6 +10,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/gnolang/gno/pkgs/amino"
 	"github.com/gnolang/gno/pkgs/command"
+	"github.com/gnolang/gno/pkgs/crypto"
 	"github.com/gnolang/gno/pkgs/crypto/keys"
 	"github.com/gnolang/gno/pkgs/crypto/keys/client"
 	"github.com/gnolang/gno/pkgs/errors"
@@ -150,6 +151,12 @@ func faucetApp(cmd *command.Command, args []string, iopts interface{}) error {
 	}
 
 	// validate password
+	//  Print faucet contract address
+	//  TODO: This is a hack, we should use gno.DerivePkgAddr(pkgPath string),
+	//  I had a problem to import github.com/gnolang/gno properly. Will fix it later.
+	pkgAddr := crypto.AddressFromPreimage([]byte("pkgPath:" + opts.PkgPath)).Bech32()
+	fmt.Println("- Please verify the address with contract deloyed on chain for ", opts.PkgPath)
+	fmt.Println("- Please make sure deposit fund to this faucet contract: ", pkgAddr)
 
 	// start a discord session
 	df, err := NewDiscordFaucet(name, pass, opts)
